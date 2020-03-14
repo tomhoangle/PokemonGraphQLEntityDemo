@@ -1,3 +1,9 @@
-# Core-GraphQL-SingleTable
+# PokemonGraphQLEntity
 
-https://www.c-sharpcorner.com/article/graphql-in-net-core-web-api-with-entity-framework-core-part-one/
+Pokemon Database using GraphQL and Entity Framework
+
+#To Do:
+Parameterized Query
+Dockerize
+CI/CD
+UI map

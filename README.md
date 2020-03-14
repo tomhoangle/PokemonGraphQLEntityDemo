@@ -1,3 +1,3 @@
-# Core-GraphQL-SingleTable
+# Pokemon Graphql
 
-https://www.c-sharpcorner.com/article/graphql-in-net-core-web-api-with-entity-framework-core-part-one/
+Using pokemon database, generate graphql Schema from entity framework

@@ -1,9 +1,6 @@
-# PokemonGraphQLEntity
+# Pokemon Graphql
 
-Pokemon Database using GraphQL and Entity Framework
+Using pokemon database, generate graphql Schema from entity framework
 
-#To Do:
-Parameterized Query
-Dockerize
-CI/CD
-UI map
+#Tool
+Graphql Playground

@@ -1,5 +1,6 @@
 ﻿using GraphQL.Types;
 using GraphQLGraphTypeFirstSingleTable.Models;
+using GraphQLGraphTypeFirstSingleTable.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,15 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
 {
     public class PokemonType : ObjectGraphType<PokemonData>
     {
-        public PokemonType()
+        public PokemonType(ISpecieRepository specieRepository)
         {
             Field(a => a.Id, type: typeof(IntGraphType));
             Field(a => a.SpeciesId, type: typeof(IntGraphType));
             Field(a => a.Identifier);
+            Field<SpecieType>(
+                "Evolvution",
+                resolve: context => specieRepository.GetEvolution(context.Source.SpeciesId)
+                );
         }
     }
 }

@@ -31,18 +31,15 @@ namespace GraphQLGraphTypeFirstSingleTable
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IPokemonRepository, PokemonRepository>();
+            services.AddScoped<ISpecieRepository, SpecieRepository>();
 
-            //services.AddDbContext<GraphQLDemoContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<PokemonContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
             //GraphQL configuration
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-            //services.AddScoped<EmployeeSchema>();
             services.AddScoped<PokemonSchema>();
             services.AddGraphQL(o => { o.ExposeExceptions = false; })
                 .AddGraphTypes(ServiceLifetime.Scoped);

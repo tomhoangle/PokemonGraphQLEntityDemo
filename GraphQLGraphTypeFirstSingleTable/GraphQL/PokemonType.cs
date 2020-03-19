@@ -1,6 +1,8 @@
 ﻿using GraphQL.Types;
 using GraphQLGraphTypeFirstSingleTable.Models;
 using GraphQLGraphTypeFirstSingleTable.Interfaces;
+using GraphQLGraphTypeFirstSingleTable.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

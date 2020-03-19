@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\IPaginationRepository.cs" />
+    <Compile Remove="Repositories\PaginationRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Images\" />
     <Folder Include="wwwroot\" />

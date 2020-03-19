@@ -8,20 +8,10 @@ using System.Threading.Tasks;
 
 namespace GraphQLGraphTypeFirstSingleTable.GraphQL
 {
-    public class PokemonQuery : ObjectGraphType
+    public class PaginationQuery : ObjectGraphType
     {
-        public PokemonQuery(IPokemonRepository pokemonRepository)
+        public PaginationQuery()
         {
-            Field<ListGraphType<PokemonType>>(
-                "AllPokemons",
-                resolve: context => pokemonRepository.GetPokemons()
-                ) ;
-
-            Field<PokemonType>(
-                "PokemonById",
-                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
-                resolve: context => pokemonRepository.GetPokemonById((context.GetArgument<int>("id")))
-                );
 
             int totalCount;
             using (var context = new PokemonContext())

@@ -15,7 +15,7 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
             Field<ListGraphType<PokemonType>>(
                 "AllPokemons",
                 resolve: context => pokemonRepository.GetPokemons()
-                ) ;
+                );
 
             Field<PokemonType>(
                 "PokemonById",
@@ -23,15 +23,19 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
                 resolve: context => pokemonRepository.GetPokemonById((context.GetArgument<int>("id")))
                 );
 
-            int totalCount;
-            using (var context = new PokemonContext())
-            {
-                totalCount = context.PokemonData.Count();  //FromSql("Select Count(*) from pokemon_data").ToList().;
-            }
+
 
             Field<PaginationType>(
                 "PokemonPagination",
-                resolve: context => new Pagination(totalCount)
+                resolve: context =>
+                 {
+                     int totalCount;
+                     using (var ctx= new PokemonContext())
+                     {
+                         totalCount = ctx.PokemonData.Count();
+                     }
+                     return new Pagination(totalCount);
+                 }
                 );
         }
     }

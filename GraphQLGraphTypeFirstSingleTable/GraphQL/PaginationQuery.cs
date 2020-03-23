@@ -12,16 +12,17 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
     {
         public PaginationQuery()
         {
-
-            int totalCount;
-            using (var context = new PokemonContext())
-            {
-                totalCount = context.PokemonData.Count();  //FromSql("Select Count(*) from pokemon_data").ToList().;
-            }
-
             Field<PaginationType>(
                 "PokemonPagination",
-                resolve: context => new Pagination(totalCount)
+                resolve: context =>
+                {
+                    int totalCount;
+                    using (var context = new PokemonContext())
+                    {
+                        totalCount = context.PokemonData.Count();  //FromSql("Select Count(*) from pokemon_data").ToList().;
+                    }
+                    return new Pagination(totalCount);
+                }
                 );
         }
     }

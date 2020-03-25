@@ -9,6 +9,7 @@ namespace GraphQLGraphTypeFirstSingleTable.Interfaces
     public interface IPokemonRepository
     {
         Task<List<PokemonData>> GetPokemons();
+        Task<List<PokemonData>> GetPokemonPagination(int first = 0, int after = 0, int last = 0);
         Task<PokemonData> GetPokemonById(int id);
     }
 }

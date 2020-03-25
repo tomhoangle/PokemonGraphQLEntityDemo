@@ -23,19 +23,23 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
                 resolve: context => pokemonRepository.GetPokemonById((context.GetArgument<int>("id")))
                 );
 
-
-
             Field<PaginationType>(
                 "PokemonPagination",
+                arguments: new QueryArguments(
+                    new QueryArgument<IntGraphType> { Name = "first", DefaultValue = 0 }, 
+                    new QueryArgument<IntGraphType> { Name = "after", DefaultValue = 0 }, 
+                    new QueryArgument<IntGraphType> { Name = "countPerPage", DefaultValue = 0 },
+                    new QueryArgument<IntGraphType> { Name = "currentPage", DefaultValue = 0 }
+                    ),
                 resolve: context =>
-                 {
-                     int totalCount;
-                     using (var ctx= new PokemonContext())
-                     {
-                         totalCount = ctx.PokemonData.Count();
-                     }
-                     return new Pagination(totalCount);
-                 }
+                {
+                    int totalCount;
+                    using (var ctx = new PokemonContext())
+                    {
+                        totalCount = ctx.PokemonData.Count();
+                    }
+                    return new Pagination(totalCount, context.GetArgument<int>("first"), context.GetArgument<int>("after"), context.GetArgument<int>("countPerPage"), context.GetArgument<int>("currentPage"));
+                }
                 );
         }
     }

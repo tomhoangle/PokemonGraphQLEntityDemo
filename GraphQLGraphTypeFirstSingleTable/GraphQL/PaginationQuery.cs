@@ -10,20 +10,20 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
 {
     public class PaginationQuery : ObjectGraphType
     {
-        public PaginationQuery()
+        public PaginationQuery(IPokemonRepository pokemonRepository)
         {
             Field<PaginationType>(
                 "PokemonPagination",
+                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "first" }), new QueryArguments(new QueryArgument<IntGraphType> { Name = "last" }),
                 resolve: context =>
-                {
-                    int totalCount;
-                    using (var context = new PokemonContext())
                     {
-                        totalCount = context.PokemonData.Count();  //FromSql("Select Count(*) from pokemon_data").ToList().;
+                        int totalCount;
+                        using (var ctx = new PokemonContext())
+                        {
+                            totalCount = ctx.PokemonData.Count();
+                        }
+                        return new Pagination(totalCount, context.GetArgument<int>("first"), context.GetArgument<int>("last"));
                     }
-                    return new Pagination(totalCount);
-                }
                 );
-        }
     }
 }

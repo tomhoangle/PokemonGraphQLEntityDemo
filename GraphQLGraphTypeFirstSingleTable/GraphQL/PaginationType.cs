@@ -14,18 +14,29 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
             Field(a => a.last, type: typeof(IntGraphType));
             Field(a => a.startCursor, type: typeof(IntGraphType));
             Field(a => a.endCursor, type: typeof(IntGraphType));
+            Field(a => a.totalPages, type: typeof(IntGraphType));
             Field(a => a.hasNextPage, type: typeof(BooleanGraphType));
             Field(a => a.currentPage, type: typeof(BooleanGraphType));
             Field<ListGraphType<PokemonType>>(
                 "Pokemons",
-                //resolve: context => pokemonRepository.GetPokemonPagination(first: context.Source.first, after: context.Source.after));
                 resolve: context => 
                     {
                         if (context.Source.countPerPage != 0)
                         {
-                            var totalPage = Math.Ceiling((double)context.Source.count / (double)context.Source.countPerPage);
                             var start = context.Source.countPerPage * (context.Source.currentPage - 1) + 1;
                             var end = start + context.Source.countPerPage;
+                            if(context.Source.after != 0)
+                            {
+                                start += context.Source.after;
+                                end += context.Source.after;
+                            }
+                            else if(context.Source.first != 0)
+                            {
+                                if(end > context.Source.first)
+                                {
+                                    end = context.Source.first + 1;
+                                }
+                            }
                             return pokemonRepository.GetPokemonPagination(first: start, last: end);
                         }
                         else

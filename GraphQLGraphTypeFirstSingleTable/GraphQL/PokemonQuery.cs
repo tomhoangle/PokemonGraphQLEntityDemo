@@ -34,11 +34,22 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
                 resolve: context =>
                 {
                     int totalCount;
+                    int totalPage;
+                    var temp = context.GetArgument<int>("countPerPage");
                     using (var ctx = new PokemonContext())
                     {
                         totalCount = ctx.PokemonData.Count();
+                        if (context.GetArgument<int>("countPerPage") != 0 && context.GetArgument<int>("first") != 0)
+                        {
+                            totalPage = (int)Math.Ceiling((double)context.GetArgument<int>("first") / temp);
+                        }
+                        else
+                        {
+                            totalPage = (int)Math.Ceiling((double)ctx.PokemonData.Count() / temp);
+                        }
+                        
                     }
-                    return new Pagination(totalCount, context.GetArgument<int>("first"), context.GetArgument<int>("after"), context.GetArgument<int>("countPerPage"), context.GetArgument<int>("currentPage"));
+                    return new Pagination(totalCount, context.GetArgument<int>("first"), context.GetArgument<int>("after"), context.GetArgument<int>("countPerPage"), context.GetArgument<int>("currentPage"), totalPage);
                 }
                 );
         }

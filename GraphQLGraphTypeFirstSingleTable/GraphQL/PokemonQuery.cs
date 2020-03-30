@@ -29,7 +29,8 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
                     new QueryArgument<IntGraphType> { Name = "first", DefaultValue = 0 }, 
                     new QueryArgument<IntGraphType> { Name = "after", DefaultValue = 0 }, 
                     new QueryArgument<IntGraphType> { Name = "countPerPage", DefaultValue = 0 },
-                    new QueryArgument<IntGraphType> { Name = "currentPage", DefaultValue = 0 }
+                    new QueryArgument<IntGraphType> { Name = "currentPage", DefaultValue = 0 },
+                    new QueryArgument<StringGraphType> { Name = "sortBy" }
                     ),
                 resolve: context =>
                 {
@@ -43,13 +44,17 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
                         {
                             totalPage = (int)Math.Ceiling((double)context.GetArgument<int>("first") / temp);
                         }
-                        else
+                        else if (context.GetArgument<int>("countPerPage") != 0)
                         {
                             totalPage = (int)Math.Ceiling((double)ctx.PokemonData.Count() / temp);
                         }
+                        else
+                        {
+                            totalPage = 0;
+                        }
                         
                     }
-                    return new Pagination(totalCount, context.GetArgument<int>("first"), context.GetArgument<int>("after"), context.GetArgument<int>("countPerPage"), context.GetArgument<int>("currentPage"), totalPage);
+                    return new Pagination(totalCount, context.GetArgument<int>("first"), context.GetArgument<int>("after"), context.GetArgument<int>("countPerPage"), context.GetArgument<int>("currentPage"), totalPage, context.GetArgument<string>("sortBy"));
                 }
                 );
         }

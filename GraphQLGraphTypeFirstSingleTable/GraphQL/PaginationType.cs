@@ -17,6 +17,7 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
             Field(a => a.totalPages, type: typeof(IntGraphType));
             Field(a => a.hasNextPage, type: typeof(BooleanGraphType));
             Field(a => a.currentPage, type: typeof(BooleanGraphType));
+            Field(a => a.sortBy, type: typeof(StringGraphType));
             Field<ListGraphType<PokemonType>>(
                 "Pokemons",
                 resolve: context => 
@@ -37,11 +38,15 @@ namespace GraphQLGraphTypeFirstSingleTable.GraphQL
                                     end = context.Source.first + 1;
                                 }
                             }
-                            return pokemonRepository.GetPokemonPagination(first: start, last: end);
+                            //return pokemonRepository.GetPokemonPagination(first: start, last: end);
+
+                            if(!string.IsNullOrEmpty(context.Source.sortBy)) return pokemonRepository.GetPokemonPagination(first: start, last: end, sortBy: context.Source.sortBy);
+                            else return pokemonRepository.GetPokemonPagination(first: start, last: end);
                         }
                         else
                         {
-                            return pokemonRepository.GetPokemonPagination(first: context.Source.first, after: context.Source.after);
+                            if (!string.IsNullOrEmpty(context.Source.sortBy)) return pokemonRepository.GetPokemonPagination(first: context.Source.first, after: context.Source.after, sortBy: context.Source.sortBy);
+                            else return pokemonRepository.GetPokemonPagination(first: context.Source.first, after: context.Source.after);
                         }
                     }
                 );

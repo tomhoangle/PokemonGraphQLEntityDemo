@@ -8,7 +8,7 @@ namespace GraphQLGraphTypeFirstSingleTable.Models
     public class Pagination
     {
 
-        public Pagination(int count, int first = 0, int after = 0, int countPerPage = 0, int currentPage = 0, int totalPage = 0)
+        public Pagination(int count, int first = 0, int after = 0, int countPerPage = 0, int currentPage = 0, int totalPage = 0, string SortBy = "")
         {
             this.count = count;
             this.first = first;
@@ -16,6 +16,7 @@ namespace GraphQLGraphTypeFirstSingleTable.Models
             this.countPerPage = countPerPage;
             this.currentPage = currentPage;
             this.totalPages = totalPage;
+            this.sortBy = SortBy;
             if (first == 0 && after == 0) endCursor = count;
             else endCursor = first + after + 1;
         }
@@ -30,5 +31,6 @@ namespace GraphQLGraphTypeFirstSingleTable.Models
         public int countPerPage { get; set; }
         public int currentPage { get; set; }
         public int totalPages { get; set; }
+        public string sortBy { get; set; }
     }
 }

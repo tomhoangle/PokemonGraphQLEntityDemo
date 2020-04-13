@@ -18,7 +18,17 @@ namespace GraphQLGraphTypeFirstSingleTable
 
             ParameterExpression parameter = Expression.Parameter(source.ElementType, "");
 
-            MemberExpression property = Expression.Property(parameter, columnName);
+            MemberExpression property;
+
+            try
+            {
+                property = Expression.Property(parameter, columnName);
+            }
+            catch
+            {
+                throw new ArgumentException("Field to be sort by doesn't exist");
+            }
+            
             LambdaExpression lambda = Expression.Lambda(property, parameter);
 
             string methodName = isAscending ? "OrderBy" : "OrderByDescending";
